@@ -2,20 +2,32 @@ import express from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
+import path from 'path';
+import ejs from 'ejs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from public directory
+
+app.set('view engine', 'ejs');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+app.get('/', (req, res) => {
+  res.render('Frontend');
+});
 
 app.post('/data', async (req, res) => {
     try {
        const { userId, password } = req.body;
-       const hashedPassword = crypto.createHash('md5').update(password).digest("hex");
+       const hashedPassword = crypto.createHash('md5').update(password).digest("hex"); //Creates a md5 form of raw password entered from client side
    
        let { data: userData, error: userError } = await supabase
          .from('users')

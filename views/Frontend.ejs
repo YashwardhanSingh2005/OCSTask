@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/ontend.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <form id="loginForm">
+        <label for="userId">User ID:</label><br>
+        <input type="text" id="userId" name="userId"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function(){
+            $('#loginForm').on('submit', function(event){
+                event.preventDefault();
+                var userId = $('#userId').val();
+                var password = $('#password').val();
+
+                $.ajax({
+                    url: '/data',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({userId: userId, password: password}),
+                    success: function(response){
+                        var resultDiv = $('#result');
+                        resultDiv.empty();
+                        var table = $('<table></table>');
+                        var headerRow = $('<tr></tr>');
+                        for (var key in response[0]) {
+                            headerRow.append($('<th></th>').text(key));
+                        }
+                        table.append(headerRow);
+                        for (var i = 0; i < response.length; i++) {
+                            var row = $('<tr></tr>');
+                            for (var key in response[i]) {
+                                row.append($('<td></td>').text(response[i][key]));
+                            }
+                            table.append(row);
+                        }
+                        resultDiv.append(table);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        alert('Error: ' + textStatus + ', ' + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
