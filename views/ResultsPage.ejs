@@ -1,0 +1,133 @@
+<!-- ResultsPage.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include the same styles as Frontend.ejs -->
+</head>
+<style>
+    body {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+form {
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+  width: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+input:focus {
+  outline: none;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 600px) {
+  form {
+    padding: 10px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 5px;
+  }
+}
+
+/* Added border styles */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+</style>
+<body>
+    <h1>Results</h1>
+    <div id="resultsTableContainer"></div>
+    <button id="fetchAgainBtn">Fetch Again</button>
+    <script>
+    const params = new URLSearchParams(window.location.search);
+        const data = JSON.parse(decodeURIComponent(params.get('data')));
+
+        // Display the results table
+        const resultsTableContainer = $('#resultsTableContainer');
+        const table = $('<table></table>');
+
+        // Generate the table headers
+        const headerRow = $('<tr></tr>');
+        Object.keys(data[0]).forEach((key) => {
+            headerRow.append($('<th></th>').text(key));
+        });
+        table.append(headerRow);
+
+        // Generate the table rows
+        data.forEach((item) => {
+            const row = $('<tr></tr>');
+            Object.values(item).forEach((value) => {
+                row.append($('<td></td>').text(value));
+            });
+            table.append(row);
+        });
+
+        // Append the table to the container
+        resultsTableContainer.append(table);
+
+        // Handle the "Fetch Again" button click
+        $('#fetchAgainBtn').click(function() {
+            window.location.href = '/'; // Redirect to the home page
+        });
+    </script>
+
+</body>
+</html>

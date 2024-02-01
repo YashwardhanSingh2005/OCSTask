@@ -23,6 +23,12 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 app.get('/', (req, res) => {
   res.render('Frontend');
 });
+// Backend.js
+app.get('/results', (req, res) => {
+  // Extract the data from the query parameters
+  const data = JSON.parse(req.query.data);
+  res.render('ResultsPage', { data: data });
+});
 
 app.post('/data', async (req, res) => {
     try {
