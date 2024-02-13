@@ -1,5 +1,5 @@
 {
-    "version":  2,
+    "version":   2,
     "builds": [
       {
         "src": "./Backend.js",
@@ -14,10 +14,13 @@
       {
         "src": "/views/(.*)",
         "dest": "/views/$1"
-      },
+      }
+    ],
+    "rewrites": [
       {
-        "src": "/(.*)",
-        "dest": "/"
+        "source": "/(.*)",
+        "destination": "/"
       }
     ]
 }
+
