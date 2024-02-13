@@ -1,12 +1,21 @@
 {
-    "version": 2,
+    "version":  2,
     "builds": [
       {
         "src": "./Backend.js",
         "use": "@vercel/node"
+      },
+      {
+        "src": "/views/(.*)",
+        "headers": { "cache-control": "max-age=0, must-revalidate" },
+        "dest": "/views/$1"
       }
     ],
     "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/Backend.js"
+      },
       {
         "src": "/(.*)",
         "dest": "/"
