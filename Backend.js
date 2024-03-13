@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'views'))); // Serve static files from public directory
 
 app.set('view engine', 'ejs');
 
