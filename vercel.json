@@ -7,13 +7,9 @@
       }
     ],
     "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/Backend.js"
-      },
-      {
-        "src": "/views/(.*)",
-        "dest": "/views/$1"
+       {
+        "src": "/(.*)",
+        "dest": "/"
       }
     ]
 }
